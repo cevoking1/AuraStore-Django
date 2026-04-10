@@ -2,15 +2,11 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Category, Color, Memory, Product, ProductVariant, Order, OrderItem
 
-# ==========================================
-# 1. ИНЛАЙНЫ (ВЛОЖЕННЫЕ ТАБЛИЦЫ ДЛЯ АДМИНКИ)
-# ==========================================
-
-# Управление вариантами (цвета и цены) внутри карточки товара
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
     extra = 1
-    fields = ('color', 'memory', 'price', 'variant_image', 'get_preview')
+    # ДОБАВИЛИ STOCK
+    fields = ('color', 'memory', 'price', 'stock', 'variant_image', 'get_preview')
     readonly_fields = ('get_preview',)
 
     def get_preview(self, obj):
@@ -19,44 +15,32 @@ class ProductVariantInline(admin.TabularInline):
         return "-"
     get_preview.short_description = "Превью"
 
-
-# Просмотр купленных товаров внутри карточки заказа
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ['product', 'variant']
     extra = 0
     readonly_fields = ['price']
 
-
-# ==========================================
-# 2. НАСТРОЙКИ МОДЕЛЕЙ
-# ==========================================
-
-# --- КАТЕГОРИИ ---
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
-    prepopulated_fields = {'slug': ('name',)} # Авто-заполнение адреса из названия
+    prepopulated_fields = {'slug': ('name',)} 
     search_fields = ('name',)
 
-
-# --- ТОВАРЫ ---
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    # Что отображаем в общем списке
-    list_display = ('get_image', 'name', 'category', 'base_price', 'is_active')
+    # ДОБАВИЛИ STOCK В СПИСОК
+    list_display = ('get_image', 'name', 'category', 'base_price', 'stock', 'is_active')
     list_display_links = ('get_image', 'name')
-    list_editable = ('base_price', 'is_active', 'category')
+    list_editable = ('base_price', 'stock', 'is_active', 'category')
     list_filter = ('category', 'is_active', 'created_at')
     search_fields = ('name', 'description')
     
-    # Подключаем варианты (цены/цвета) прямо в карточку товара
     inlines = [ProductVariantInline]
     
-    # Группировка полей внутри карточки товара
     fieldsets = (
         ('Основная информация', {
-            'fields': ('name', 'category', 'description', 'base_price', 'is_active')
+            'fields': ('name', 'category', 'description', 'base_price', 'stock', 'is_active')
         }),
         ('Визуальный контент и характеристики', {
             'fields': ('image', 'image_2', 'image_3', 'specs')
@@ -69,8 +53,6 @@ class ProductAdmin(admin.ModelAdmin):
         return "Нет фото"
     get_image.short_description = "Фото"
 
-
-# --- ЗАКАЗЫ ---
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'total_price', 'is_completed', 'created_at')
@@ -78,12 +60,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('is_completed',)
     search_fields = ('first_name', 'last_name', 'phone')
     readonly_fields = ('created_at', 'total_price', 'user')
-    
-    # Подключаем список купленных товаров в заказ
     inlines = [OrderItemInline] 
 
-
-# --- СПРАВОЧНИКИ ---
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -93,10 +71,6 @@ class ColorAdmin(admin.ModelAdmin):
 class MemoryAdmin(admin.ModelAdmin):
     list_display = ('size',)
 
-
-# ==========================================
-# 3. КАСТОМИЗАЦИЯ ДИЗАЙНА АДМИНКИ
-# ==========================================
 admin.site.site_header = "Aura Store | Управление магазином"
 admin.site.site_title = "Aura Admin"
 admin.site.index_title = "Консоль администратора Aura"

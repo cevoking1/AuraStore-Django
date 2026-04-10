@@ -38,11 +38,16 @@
                     <div class="grid grid-cols-1 gap-4" id="variant-selector">
                         {% for variant in product.variants.all %}
                         <button 
-                            onclick="updateVariant('{{ variant.price }}', '{% if variant.variant_image %}{{ variant.variant_image.url }}{% endif %}', '{{ variant.id }}', this)"
+                            onclick="updateVariant('{{ variant.price }}', '{% if variant.variant_image %}{{ variant.variant_image.url }}{% endif %}', '{{ variant.id }}', '{{ variant.stock }}', this)"
                             class="variant-btn flex justify-between items-center px-8 py-6 border-2 border-gray-100 rounded-[2rem] font-bold text-sm hover:border-gray-300 transition-all outline-none"
                         >
                             <span class="text-lg text-black">{{ variant.color.name }} / {{ variant.memory.size }}</span>
-                            <span class="text-gray-500">{{ variant.price }} ₸</span>
+                            <div class="text-right">
+                                <span class="block text-black">{{ variant.price }} ₸</span>
+                                <span class="text-[10px] {% if variant.stock > 0 %}text-green-500{% else %}text-red-500{% endif %} uppercase tracking-widest">
+                                    {% if variant.stock > 0 %}В наличии: {{ variant.stock }}{% else %}Нет в наличии{% endif %}
+                                </span>
+                            </div>
                         </button>
                         {% endfor %}
                     </div>
@@ -55,7 +60,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="variant_id" id="selected-variant-id" value="0">
                     
-                    <button type="submit" onclick="return checkVariantSelection();" class="flex items-center justify-center w-full bg-blue-600 text-white py-6 rounded-full text-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100">
+                    <button type="submit" id="submit-btn" onclick="return checkVariantSelection();" class="flex items-center justify-center w-full bg-blue-600 text-white py-6 rounded-full text-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 disabled:bg-gray-200 disabled:shadow-none disabled:text-gray-400">
                         Добавить в корзину
                     </button>
                 </form>
@@ -91,7 +96,6 @@
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     
-    /* Подсветка активного варианта */
     .variant-btn.active {
         border-color: #2563eb !important;
         background-color: #eff6ff;
@@ -99,45 +103,53 @@
 </style>
 
 <script>
-    // Функция обновления цены, фото и записи ID выбранного варианта
-    function updateVariant(price, imageUrl, variantId, element) {
-        // Обновляем цену на странице
+    // Функция обновления цены, фото, остатка и активного состояния
+    function updateVariant(price, imageUrl, variantId, stock, element) {
+        // Обновляем цену
         document.getElementById('display-price').innerText = price + ' ₸';
         
-        // Обновляем главное фото галереи (если оно есть у варианта)
+        // Обновляем фото
         if (imageUrl && imageUrl !== '') {
             const mainImg = document.getElementById('main-product-image');
-            mainImg.style.opacity = '0'; // Плавное затухание
+            mainImg.style.opacity = '0';
             setTimeout(() => {
                 mainImg.src = imageUrl;
-                mainImg.style.opacity = '1'; // Плавное появление
-                // Скроллим галерею к первому фото
+                mainImg.style.opacity = '1';
                 document.getElementById('product-gallery').scrollTo({left: 0, behavior: 'smooth'});
             }, 300);
         }
 
-        // Записываем ID варианта в скрытое поле для формы
+        // Записываем ID выбранного варианта
         document.getElementById('selected-variant-id').value = variantId;
 
-        // Управление активным классом кнопок
+        // Проверка наличия и управление кнопкой
+        const submitBtn = document.getElementById('submit-btn');
+        if (parseInt(stock) <= 0) {
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Нет в наличии';
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Добавить в корзину';
+        }
+
+        // Подсветка активной кнопки
         const buttons = document.querySelectorAll('.variant-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
         element.classList.add('active');
     }
 
-    // Проверка перед отправкой в корзину
     function checkVariantSelection() {
         const variantId = document.getElementById('selected-variant-id').value;
         const hasVariants = document.querySelectorAll('.variant-btn').length > 0;
         
         if (hasVariants && variantId === '0') {
             alert('Пожалуйста, выберите конфигурацию перед добавлением в корзину.');
-            return false; // Останавливает отправку формы
+            return false;
         }
         return true;
     }
 
-    // Галерея (Drag scroll)
+    // Drag scroll для галереи
     const gallery = document.getElementById('product-gallery');
     let isDown = false, startX, scrollLeft;
     gallery.addEventListener('mousedown', (e) => {

@@ -48,12 +48,13 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Описание")
     base_price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Базовая цена (₸)")
     
-    # Главное фото (отображается в каталоге)
+    # НОВОЕ ПОЛЕ: Общий остаток
+    stock = models.PositiveIntegerField(default=10, verbose_name="Остаток (базовый)")
+    
     image = models.ImageField(upload_to='products/', verbose_name="Главное фото (общее)")
     image_2 = models.ImageField(upload_to='products/', verbose_name="Фото 2", null=True, blank=True)
     image_3 = models.ImageField(upload_to='products/', verbose_name="Фото 3", null=True, blank=True)
     
-    # Характеристики в формате Ключ: Значение
     specs = models.TextField(
         verbose_name="Характеристики", 
         help_text="Формат: Название: Значение (каждое с новой строки)", 
@@ -70,7 +71,6 @@ class Product(models.Model):
         ordering = ['-created_at']
 
     def get_specs_list(self):
-        """Парсит текстовое поле характеристик для шаблона"""
         if not self.specs:
             return []
         lines = self.specs.strip().split('\n')
@@ -90,6 +90,10 @@ class ProductVariant(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name="Цвет")
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE, verbose_name="Память")
     price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Цена для этой версии (₸)")
+    
+    # НОВОЕ ПОЛЕ: Остаток конкретного цвета/памяти
+    stock = models.PositiveIntegerField(default=5, verbose_name="Остаток (шт)")
+    
     variant_image = models.ImageField(
         upload_to='products/variants/', 
         verbose_name="Фото этого цвета", 
@@ -130,11 +134,11 @@ class Order(models.Model):
     def __str__(self):
         return f"Заказ №{self.id} — {self.first_name}"
     
-# --- СОСТАВ ЗАКАЗА (НОВОЕ) ---
+# --- СОСТАВ ЗАКАЗА ---
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name="Заказ")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
-    variant = models.ForeignKey(ProductVariant, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Выбранный вариант (цвет/память)")
+    variant = models.ForeignKey(ProductVariant, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Выбранный вариант")
     price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Цена при покупке (₸)")
     quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
 

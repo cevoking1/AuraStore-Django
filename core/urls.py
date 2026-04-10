@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from shop import views # Импортируем всё сразу через views.название
+from shop import views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,7 +16,10 @@ urlpatterns = [
     path('cart/', views.cart_detail, name='cart_detail'),
     path('add-to-cart/<int:pk>/', views.add_to_cart, name='add_to_cart'),
     
-    # ДОБАВЛЕНО: Путь для удаления конкретного товара из корзины
+    # ДОБАВЛЕНО: Путь для изменения количества (плюс/минус)
+    path('cart-update/<str:item_key>/<str:action>/', views.cart_update, name='cart_update'),
+    
+    # Путь для удаления конкретного товара из корзины
     path('cart-remove/<str:item_key>/', views.cart_remove, name='cart_remove'),
     
     path('cart-clear/', views.cart_clear, name='cart_clear'),

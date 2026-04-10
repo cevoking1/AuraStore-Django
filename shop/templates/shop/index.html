@@ -2,132 +2,295 @@
 {% load static %}
 
 {% block content %}
-<section class="bg-white pt-32 pb-32 relative min-h-[700px] flex items-center">
-    <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full z-10 relative">
-        
-        <div class="text-left space-y-6 z-20">
-            <h1 class="text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-black">
-                Линейка iPhone 17 
+<section class="bg-white pt-20 md:pt-32 pb-20 md:pb-32 relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center w-full z-10 relative">
+        <div class="text-left space-y-4 md:space-y-6 z-20 mt-10 md:mt-0">
+            <h1 class="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-black">
+                Линейка iPhone 17
             </h1>
-
-            <p class="text-2xl md:text-3xl font-medium text-gray-500 tracking-tight max-w-lg">
+            <p class="text-xl md:text-3xl font-medium text-gray-500 tracking-tight max-w-lg">
                 Титан. Интеллект. Камера Pro.<br>Превосходство в каждом пикселе.
             </p>
-
-            <div class="pt-8 flex justify-start gap-10 text-xl font-semibold">
-                <a href="{% url 'checkout' %}" class="text-blue-600 hover:text-blue-800 transition-colors">Купить ></a>
+            <div class="pt-6 md:pt-8 flex justify-start gap-8 md:gap-10 text-lg md:text-xl font-semibold">
+                <a href="#catalog" class="text-blue-600 hover:text-blue-800 transition-colors">В каталог ></a>
                 <a href="#" class="text-blue-600 hover:text-blue-800 transition-colors">Подробнее ></a>
             </div>
         </div>
-
-        <div class="relative flex justify-end items-end h-full">
+        <div class="relative flex justify-center md:justify-end items-end h-full w-full">
             <img src="{% static 'images/hero.png' %}" 
                  alt="iPhone 17"
-                 class="absolute -bottom-32 -right-[50%]
-                        max-w-[190%] lg:max-w-[200%] 
+                 class="relative md:absolute md:-bottom-32 md:-right-[50%]
+                        w-[190%] max-w-none md:max-w-[190%] lg:max-w-[190%] 
                         h-auto transition-all duration-700 
-                        pointer-events-none select-none">
+                        pointer-events-none select-none mt-10 md:mt-0">
         </div>
-
     </div>
 </section>
 
 <section class="bg-[#f5f5f7] py-32 border-y border-gray-100">
     <div class="max-w-7xl mx-auto px-12">
-        <h2 class="text-5xl font-bold mb-16 tracking-tight text-black text-center">Найти модель.</h2>
-        
+        <h2 class="text-5xl font-bold mb-16 tracking-tight text-black text-center">Категории.</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            
-            <div class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
+            <a href="{% url 'category_detail' 'smartfony' %}" class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
                 <p class="text-2xl font-bold text-black">Смартфоны</p>
                 <div class="flex justify-center items-center h-full">
-                    <img src="{% static 'images/phone.webp' %}" class="max-h-48 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
+                    <img src="{% static 'images/17 orange.jpg' %}" class="max-h-44 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
                 </div>
-            </div>
-
-            <div class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
+            </a>
+            <a href="{% url 'category_detail' 'noutbuki' %}" class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
                 <p class="text-2xl font-bold text-black">Ноутбуки</p>
                 <div class="flex justify-center items-center h-full">
                     <img src="{% static 'images/laptop.png' %}" class="max-h-48 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
                 </div>
-            </div>
-
-            <div class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
+            </a>
+            <a href="{% url 'category_detail' 'planshety' %}" class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
                 <p class="text-2xl font-bold text-black">Планшеты</p>
                 <div class="flex justify-center items-center h-full">
                     <img src="{% static 'images/ipad.png' %}" class="max-h-48 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
                 </div>
-            </div>
-
-            <div class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
+            </a>
+            <a href="{% url 'category_detail' 'audio' %}" class="group bg-white rounded-[1.5rem] p-12 h-96 flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all text-center">
                 <p class="text-2xl font-bold text-black">Аудио</p>
                 <div class="flex justify-center items-center h-full">
                     <img src="{% static 'images/head.png' %}" class="max-h-48 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
                 </div>
-            </div>
-
+            </a>
         </div>
     </div>
 </section>
 
 <section class="bg-white py-32">
     <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-10">
-        
         <div class="bg-black rounded-[2rem] p-16 h-[600px] flex flex-col text-white justify-between">
             <div class="space-y-6">
                 <h3 class="text-5xl font-bold tracking-tight">Trade-in.</h3>
-                <p class="text-2xl text-gray-400 max-w-sm font-medium">Выгодный обмен старого устройства на новую технику Aura.</p>
+                <p class="text-2xl text-gray-400 max-w-sm font-medium">Выгодный обмен старого устройства на новую технику в Aura.</p>
             </div>
             <div>
-                <a href="#" class="inline-block bg-white text-black px-12 py-4 rounded-full font-bold text-sm hover:bg-gray-200 transition-colors">Узнать стоимость</a>
+                <button id="open-tradein-btn" class="inline-block bg-white text-black px-12 py-4 rounded-full font-bold text-sm hover:bg-gray-200 transition-colors">
+                     Узнать стоимость
+                </button>
             </div>
         </div>
-
         <div class="bg-[#f5f5f7] rounded-[2rem] p-16 h-[600px] flex flex-col text-black justify-between border border-gray-100">
             <div class="space-y-6">
                 <h3 class="text-5xl font-bold tracking-tight">Рассрочка.</h3>
                 <p class="text-2xl text-gray-500 max-w-sm font-medium">0-0-12. Никаких переплат. Покупайте сегодня, платите потом.</p>
             </div>
             <div>
-                <a href="#" class="inline-block bg-black text-white px-12 py-4 rounded-full font-bold text-sm hover:bg-gray-800 transition-colors">Оформить сейчас</a>
+                <button id="open-installment-btn" class="inline-block bg-black text-white px-12 py-4 rounded-full font-bold text-sm hover:bg-gray-800 transition-colors">
+                 Оформить сейчас
+                </button>
             </div>
         </div>
-
     </div>
 </section>
 
-<section class="bg-[#f5f5f7] py-32 border-t border-gray-100">
+<section class="bg-[#f5f5f7] py-32 border-t border-gray-100" id="catalog">
     <div class="max-w-7xl mx-auto px-12">
-        <h2 class="text-5xl font-bold mb-20 tracking-tight text-black">В наличии.</h2>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-20">
+            <h2 class="text-5xl font-bold tracking-tight text-black">
+                {% if query %}Результаты по запросу: "{{ query }}"{% else %}В наличии.{% endif %}
+            </h2>
+            <div class="flex gap-6 text-[11px] font-black uppercase tracking-[0.2em]">
+                <a href="?{% if query %}q={{ query }}&{% endif %}sort=newest#catalog" 
+                   class="{% if sort == 'newest' or not sort %}text-blue-600{% else %}text-gray-400{% endif %} hover:text-black transition-colors">
+                    Новинки
+                </a>
+                <a href="?{% if query %}q={{ query }}&{% endif %}sort=price_asc#catalog" 
+                   class="{% if sort == 'price_asc' %}text-blue-600{% else %}text-gray-400{% endif %} hover:text-black transition-colors">
+                    Сначала дешевле
+                </a>
+                <a href="?{% if query %}q={{ query }}&{% endif %}sort=price_desc#catalog" 
+                   class="{% if sort == 'price_desc' %}text-blue-600{% else %}text-gray-400{% endif %} hover:text-black transition-colors">
+                    Сначала дороже
+                </a>
+            </div>
+        </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
             {% for product in products %}
-            
-            <div class="group bg-white rounded-[1.5rem] p-12 h-[35rem] flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all">
-                
+            <div class="group bg-white rounded-[2rem] p-10 w-full max-w-[310px] h-[480px] flex flex-col justify-between hover:bg-gray-50 cursor-pointer shadow-sm overflow-hidden transition-all border border-transparent hover:border-gray-100 mx-auto">
                 <div class="space-y-2">
                     <p class="text-[13px] font-bold text-[#b64400] uppercase tracking-wider">New</p>
-                    <p class="text-2xl font-bold text-black tracking-tight">{{ product.name }}</p>
+                    <p class="text-xl font-bold text-black tracking-tight leading-tight">{{ product.name }}</p>
                 </div>
-
-                <a href="{% url 'product_detail' product.pk %}" class="flex justify-center items-center h-full my-6">
+                <a href="{% url 'product_detail' product.pk %}" class="flex justify-center items-center h-48 my-4">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" 
-                             class="max-h-60 object-contain mix-blend-multiply opacity-90 group-hover:opacity-100 transition-opacity duration-500">
+                             class="max-h-full object-contain mix-blend-multiply opacity-90 group-hover:opacity-100 transition-opacity duration-500">
                     {% endif %}
                 </a>
-
-                <div class="space-y-6">
-                    <p class="text-xl text-black font-semibold">от {{ product.base_price }} ₸</p>
-                    <a href="{% url 'add_to_cart' product.pk %}" 
-                       class="inline-block bg-black text-white px-10 py-4 rounded-full text-[13px] font-bold hover:bg-gray-800 transition-colors w-full text-center tracking-wide">
-                        Купить
+                <div class="space-y-5">
+                    <p class="text-lg text-black font-semibold text-center">от {{ product.base_price }} ₸</p>
+                    <a href="{% url 'product_detail' product.pk %}" class="inline-block bg-black text-white px-8 py-4 rounded-full text-[12px] font-bold hover:bg-gray-800 transition-colors w-full text-center tracking-wide">
+                      Выбрать модель
                     </a>
                 </div>
             </div>
-
+            {% empty %}
+            <div class="col-span-full py-20 text-center">
+                <p class="text-2xl text-gray-400 font-medium">По вашему запросу ничего не найдено.</p>
+                <a href="{% url 'index' %}" class="inline-block mt-6 text-blue-600 font-bold hover:underline">Показать все товары</a>
+            </div>
             {% endfor %}
         </div>
     </div>
 </section>
+
+
+<div id="tradein-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-6 bg-black/10 backdrop-blur-xl">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-10 shadow-2xl relative">
+        
+        <button id="close-tradein" class="absolute top-8 right-8 text-gray-400 hover:text-black transition-colors">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div id="tradein-form-content" class="space-y-6">
+            <div class="text-[10px] font-black text-orange-600 uppercase tracking-[0.3em]">Aura Exchange</div>
+            <h2 class="text-3xl font-bold text-black tracking-tight">Оценка устройства.</h2>
+            <p class="text-gray-500 text-sm">Оставьте данные, и наш специалист свяжется с вами для предварительной оценки вашего устройства.</p>
+            
+            <form id="fake-tradein-form" class="space-y-4">
+                <input type="text" placeholder="Ваше устройство (напр. iPhone 15)" required
+                       class="w-full bg-[#f5f5f7] border-none rounded-2xl py-4 px-6 text-sm outline-none focus:ring-2 ring-black/5 transition-all">
+                
+                <input type="tel" placeholder="Номер телефона" required
+                       class="w-full bg-[#f5f5f7] border-none rounded-2xl py-4 px-6 text-sm outline-none focus:ring-2 ring-black/5 transition-all">
+                
+                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold text-sm hover:bg-gray-800 transition-all uppercase tracking-widest pt-5">
+                    Отправить заявку
+                </button>
+            </form>
+        </div>
+
+        <div id="tradein-success" class="hidden flex-col items-center text-center py-10 space-y-6">
+            <div class="h-20 w-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-4xl">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-black">Заявка принята.</h2>
+            <p class="text-gray-500 text-sm">Мы перезвоним вам в течение 15 минут.</p>
+            <button id="finish-tradein" class="text-blue-600 font-bold hover:underline">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<div id="installment-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-6 bg-black/10 backdrop-blur-xl">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-10 shadow-2xl relative">
+        
+        <button id="close-installment" class="absolute top-8 right-8 text-gray-400 hover:text-black transition-colors">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div id="installment-form-content" class="space-y-6">
+            <div class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em]">Aura Finance</div>
+            <h2 class="text-3xl font-bold text-black tracking-tight">Рассрочка 0-0-12.</h2>
+            <p class="text-gray-500 text-sm">Моментальное одобрение без переплат и первоначального взноса.</p>
+            
+            <form id="fake-installment-form" class="space-y-4">
+                <select class="w-full bg-[#f5f5f7] border-none rounded-2xl py-4 px-6 text-sm outline-none focus:ring-2 ring-black/5 transition-all appearance-none">
+                    <option value="12">Срок: 12 месяцев (0% переплаты)</option>
+                    <option value="6">Срок: 6 месяцев (0% переплаты)</option>
+                    <option value="3">Срок: 3 месяца (0% переплаты)</option>
+                </select>
+                
+                <input type="tel" placeholder="Ваш ИИН для проверки" required
+                       class="w-full bg-[#f5f5f7] border-none rounded-2xl py-4 px-6 text-sm outline-none focus:ring-2 ring-black/5 transition-all">
+                
+                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold text-sm hover:bg-gray-800 transition-all uppercase tracking-widest pt-5">
+                    Проверить лимит
+                </button>
+            </form>
+        </div>
+
+        <div id="installment-success" class="hidden flex-col items-center text-center py-10 space-y-6">
+            <div class="h-20 w-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-4xl">
+                <i class="bi bi-telephone-outbound"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-black">Заявка принята.</h2>
+            <p class="text-gray-500 text-sm px-6">Ваш запрос на рассрочку 0-0-12 отправлен. Мы свяжемся с вами в ближайшее время для уточнения деталей.</p>
+            <button id="finish-installment" class="text-blue-600 font-bold hover:underline">Хорошо, жду звонка</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById('tradein-modal');
+    const openBtn = document.getElementById('open-tradein-btn');
+    const closeBtn = document.getElementById('close-tradein');
+    const form = document.getElementById('fake-tradein-form');
+    const formContent = document.getElementById('tradein-form-content');
+    const successContent = document.getElementById('tradein-success');
+    const finishBtn = document.getElementById('finish-tradein');
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    });
+
+    const closeModal = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        setTimeout(() => {
+            formContent.classList.remove('hidden');
+            successContent.classList.add('hidden');
+            form.reset();
+        }, 500);
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    finishBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); 
+        formContent.classList.add('hidden');
+        successContent.classList.remove('hidden');
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const instModal = document.getElementById('installment-modal');
+    const instOpenBtn = document.getElementById('open-installment-btn');
+    const instCloseBtn = document.getElementById('close-installment');
+    const instForm = document.getElementById('fake-installment-form');
+    const instFormContent = document.getElementById('installment-form-content');
+    const instSuccessContent = document.getElementById('installment-success');
+    const instFinishBtn = document.getElementById('finish-installment');
+
+    const openInst = () => {
+        instModal.classList.remove('hidden');
+        instModal.classList.add('flex');
+    };
+
+    const closeInst = () => {
+        instModal.classList.add('hidden');
+        instModal.classList.remove('flex');
+        setTimeout(() => {
+            instFormContent.classList.remove('hidden');
+            instSuccessContent.classList.add('hidden');
+            instForm.reset();
+        }, 500);
+    };
+
+    instOpenBtn.addEventListener('click', openInst);
+    instCloseBtn.addEventListener('click', closeInst);
+    instFinishBtn.addEventListener('click', closeInst);
+
+    instForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        instFormContent.classList.add('hidden');
+        instSuccessContent.classList.remove('hidden');
+    });
+
+    instModal.addEventListener('click', (e) => {
+        if (e.target === instModal) closeInst();
+    });
+});
+</script>
+
 {% endblock %}

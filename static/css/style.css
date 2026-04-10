@@ -1,0 +1,67 @@
+/* Общие стили для Aura Store */
+
+/* Скрытие скроллбара */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Кнопки вариантов */
+.variant-btn.active {
+    border-color: #2563eb !important;
+    background-color: #eff6ff;
+}
+
+/* Красивые формы Aura ID */
+.aura-form p { margin-bottom: 1.25rem; }
+.aura-form label {
+    display: block;
+    font-size: 11px;
+    font-weight: 900;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
+}
+.aura-form input[type="text"],
+.aura-form input[type="password"],
+.aura-form input[type="email"],
+.aura-form input[type="tel"],
+.aura-form textarea {
+    width: 100%;
+    background-color: #f5f5f7;
+    border: 2px solid transparent;
+    border-radius: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.aura-form input:focus {
+    background-color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+}
+.aura-form .helptext { display: block; font-size: 11px; color: #9ca3af; margin: 0.5rem 0 0 1rem; }
+.aura-form ul.errorlist { color: #ef4444; font-size: 12px; font-weight: 600; list-style: none; padding: 0; margin: 0.5rem 0 0 1rem; }
+
+/* Анимация уведомлений */
+#messages-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-column: column;
+    gap: 10px;
+}
+.message-toast {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 4px solid #2563eb;
+    animation: slideIn 0.5s ease-out;
+}
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
