@@ -129,3 +129,18 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ №{self.id} — {self.first_name}"
+    
+# --- СОСТАВ ЗАКАЗА (НОВОЕ) ---
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name="Заказ")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    variant = models.ForeignKey(ProductVariant, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Выбранный вариант (цвет/память)")
+    price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Цена при покупке (₸)")
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+
+    class Meta:
+        verbose_name = "Товар в заказе"
+        verbose_name_plural = "Товары в заказе"
+
+    def __str__(self):
+        return f"{self.product.name} (Заказ №{self.order.id})"

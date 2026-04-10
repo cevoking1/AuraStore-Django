@@ -2,53 +2,81 @@
 {% load static %}
 
 {% block content %}
-<section class="bg-[#f5f5f7] min-h-screen pt-32 pb-20">
-    <div class="max-w-4xl mx-auto px-12">
-        <h1 class="text-5xl font-bold mb-12 tracking-tight text-black">Оформление.</h1>
+<section class="bg-[#f5f5f7] min-h-screen pt-32 pb-20 px-6">
+    <div class="max-w-2xl mx-auto">
         
-        <form method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {% csrf_token %}
-            <div class="md:col-span-2 space-y-6">
-                <div class="bg-white rounded-[1.5rem] p-10 shadow-sm space-y-6">
-                    <h3 class="text-2xl font-bold mb-4 text-black">Контактные данные</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input type="text" name="first_name" placeholder="Имя" required 
-                               class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
-                        
-                        <input type="text" name="last_name" placeholder="Фамилия" required 
-                               class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+        <div class="mb-12">
+            <h1 class="text-5xl font-bold tracking-tight text-black mb-4">Оформление.</h1>
+            <p class="text-lg text-gray-500 font-medium">Заполните данные для доставки вашего заказа.</p>
+        </div>
+
+        <div class="bg-white rounded-[2.5rem] p-10 sm:p-14 shadow-sm border border-transparent hover:border-gray-100 transition-all">
+            <form method="POST" class="aura-form space-y-6">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label>Имя</label>
+                        <input type="text" name="first_name" required placeholder="Иван" value="{{ user.first_name }}">
                     </div>
-
-                    <input type="email" name="email" placeholder="E-mail" required 
-                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
-                    
-                    <input type="text" name="phone" placeholder="Телефон" required 
-                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
-
-                    <input type="text" name="address" placeholder="Адрес доставки в Алматы" required 
-                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+                    <div>
+                        <label>Фамилия</label>
+                        <input type="text" name="last_name" required placeholder="Иванов" value="{{ user.last_name }}">
+                    </div>
                 </div>
-            </div>
 
-            <div class="md:col-span-1">
-                <div class="bg-white rounded-[1.5rem] p-10 shadow-sm sticky top-32">
-                    <h3 class="text-2xl font-bold mb-6 text-black">Ваш заказ</h3>
-                    <div class="space-y-4 mb-8 text-gray-500 font-medium">
-                        <div class="flex justify-between"><span>Товары</span><span>{{ total_price }} ₸</span></div>
-                        <div class="flex justify-between text-green-600"><span>Доставка</span><span>Бесплатно</span></div>
+                <div>
+                    <label>Телефон</label>
+                    <input type="text" name="phone" required placeholder="+7 (700) 000-00-00">
+                </div>
+
+                <div>
+                    <label>Адрес доставки</label>
+                    <input type="text" name="address" required placeholder="г. Алматы, ул. Абая, д. 10, кв. 5">
+                </div>
+
+                <div class="pt-10 border-t border-gray-100 mt-10 flex flex-col sm:flex-row justify-between items-center gap-6">
+                    <div class="text-center sm:text-left">
+                        <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest block mb-1">К оплате</span>
+                        <span class="text-3xl font-bold text-black">{{ total_price }} ₸</span>
                     </div>
-                    <div class="border-t border-gray-100 pt-6 mb-8">
-                        <div class="flex justify-between text-2xl font-bold text-black">
-                            <span>Итого</span><span>{{ total_price }} ₸</span>
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-full font-bold hover:bg-blue-700 transition-all">
-                        Оплатить
+                    <button type="submit" class="w-full sm:w-auto bg-blue-600 text-white px-12 py-5 rounded-full text-lg font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 outline-none">
+                        Подтвердить заказ
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        
     </div>
 </section>
+
+<style>
+    .aura-form label {
+        display: block;
+        font-size: 11px;
+        font-weight: 900;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+        margin-left: 1rem;
+    }
+    .aura-form input[type="text"] {
+        width: 100%;
+        background-color: #f5f5f7;
+        border: 2px solid transparent;
+        border-radius: 1.5rem;
+        padding: 1.25rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #000;
+        outline: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aura-form input[type="text"]:focus {
+        background-color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+    }
+</style>
 {% endblock %}

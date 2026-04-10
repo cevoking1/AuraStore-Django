@@ -38,7 +38,7 @@
                     <div class="grid grid-cols-1 gap-4" id="variant-selector">
                         {% for variant in product.variants.all %}
                         <button 
-                            onclick="updateVariant('{{ variant.price }}', '{% if variant.variant_image %}{{ variant.variant_image.url }}{% endif %}', this)"
+                            onclick="updateVariant('{{ variant.price }}', '{% if variant.variant_image %}{{ variant.variant_image.url }}{% endif %}', '{{ variant.id }}', this)"
                             class="variant-btn flex justify-between items-center px-8 py-6 border-2 border-gray-100 rounded-[2rem] font-bold text-sm hover:border-gray-300 transition-all outline-none"
                         >
                             <span class="text-lg text-black">{{ variant.color.name }} / {{ variant.memory.size }}</span>
@@ -51,9 +51,14 @@
             </div>
 
             <div class="pt-8 border-t border-gray-100">
-                <a href="{% url 'add_to_cart' product.pk %}" class="flex items-center justify-center w-full bg-blue-600 text-white py-6 rounded-full text-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100">
-                    Добавить в корзину
-                </a>
+                <form action="{% url 'add_to_cart' product.pk %}" method="POST" id="add-to-cart-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="variant_id" id="selected-variant-id" value="0">
+                    
+                    <button type="submit" onclick="return checkVariantSelection();" class="flex items-center justify-center w-full bg-blue-600 text-white py-6 rounded-full text-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100">
+                        Добавить в корзину
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -94,8 +99,8 @@
 </style>
 
 <script>
-    // Функция обновления цены, фото и активного состояния кнопки
-    function updateVariant(price, imageUrl, element) {
+    // Функция обновления цены, фото и записи ID выбранного варианта
+    function updateVariant(price, imageUrl, variantId, element) {
         // Обновляем цену на странице
         document.getElementById('display-price').innerText = price + ' ₸';
         
@@ -106,15 +111,30 @@
             setTimeout(() => {
                 mainImg.src = imageUrl;
                 mainImg.style.opacity = '1'; // Плавное появление
-                // Скроллим галерею к первому фото (где изменилась картинка)
+                // Скроллим галерею к первому фото
                 document.getElementById('product-gallery').scrollTo({left: 0, behavior: 'smooth'});
             }, 300);
         }
+
+        // Записываем ID варианта в скрытое поле для формы
+        document.getElementById('selected-variant-id').value = variantId;
 
         // Управление активным классом кнопок
         const buttons = document.querySelectorAll('.variant-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
         element.classList.add('active');
+    }
+
+    // Проверка перед отправкой в корзину
+    function checkVariantSelection() {
+        const variantId = document.getElementById('selected-variant-id').value;
+        const hasVariants = document.querySelectorAll('.variant-btn').length > 0;
+        
+        if (hasVariants && variantId === '0') {
+            alert('Пожалуйста, выберите конфигурацию перед добавлением в корзину.');
+            return false; // Останавливает отправку формы
+        }
+        return true;
     }
 
     // Галерея (Drag scroll)

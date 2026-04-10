@@ -8,14 +8,21 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     
-    # СТРАНИЦЫ КАТЕГОРИЙ (НОВОЕ)
+    # СТРАНИЦЫ КАТЕГОРИЙ
     path('category/<slug:slug>/', views.category_detail, name='category_detail'),
-    
     path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    
+    # КОРЗИНА
     path('cart/', views.cart_detail, name='cart_detail'),
     path('add-to-cart/<int:pk>/', views.add_to_cart, name='add_to_cart'),
+    
+    # ДОБАВЛЕНО: Путь для удаления конкретного товара из корзины
+    path('cart-remove/<str:item_key>/', views.cart_remove, name='cart_remove'),
+    
     path('cart-clear/', views.cart_clear, name='cart_clear'),
     path('checkout/', views.checkout, name='checkout'),
+    
+    # АВТОРИЗАЦИЯ И ПРОФИЛЬ
     path('login/', views.user_login, name='login'),
     path('register/', views.user_register, name='register'),
     path('logout/', views.user_logout, name='logout'),

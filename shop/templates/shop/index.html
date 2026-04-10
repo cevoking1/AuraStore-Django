@@ -7,7 +7,7 @@
         
         <div class="text-left space-y-6 z-20">
             <h1 class="text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-black">
-                iPhone 17.
+                Линейка iPhone 17 
             </h1>
 
             <p class="text-2xl md:text-3xl font-medium text-gray-500 tracking-tight max-w-lg">
@@ -23,8 +23,8 @@
         <div class="relative flex justify-end items-end h-full">
             <img src="{% static 'images/hero.png' %}" 
                  alt="iPhone 17"
-                 class="absolute -bottom-48 -right-[50%]
-                        max-w-[170%] lg:max-w-[190%] 
+                 class="absolute -bottom-32 -right-[50%]
+                        max-w-[190%] lg:max-w-[200%] 
                         h-auto transition-all duration-700 
                         pointer-events-none select-none">
         </div>
@@ -118,7 +118,7 @@
                 </a>
 
                 <div class="space-y-6">
-                    <p class="text-xl text-black font-semibold">от {{ product.price }} ₸</p>
+                    <p class="text-xl text-black font-semibold">от {{ product.base_price }} ₸</p>
                     <a href="{% url 'add_to_cart' product.pk %}" 
                        class="inline-block bg-black text-white px-10 py-4 rounded-full text-[13px] font-bold hover:bg-gray-800 transition-colors w-full text-center tracking-wide">
                         Купить

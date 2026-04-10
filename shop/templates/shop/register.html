@@ -1,66 +1,87 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Регистрация | Aura Store</title>
-    <style>
-        .aura-text-gradient {
-            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .aura-gradient { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%); }
-    </style>
-</head>
-<body class="bg-[#fafafc] flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-sm border border-gray-50">
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-black tracking-tighter italic">AURA <span class="aura-text-gradient">JOIN</span></h1>
-            <p class="text-gray-400 mt-2 text-sm font-medium">Создайте аккаунт для быстрых покупок</p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="bg-[#f5f5f7] min-h-screen flex items-center justify-center py-20 px-6">
+    <div class="max-w-md w-full">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold tracking-tight text-black mb-4">Создание.</h1>
+            <p class="text-lg text-gray-500 font-medium">Создайте Aura ID для покупок и отслеживания заказов.</p>
         </div>
 
-        <form method="POST" class="space-y-4">
-            {% csrf_token %}
-            
-            <div class="space-y-4 auth-form">
+        <div class="bg-white rounded-[2.5rem] p-10 sm:p-14 shadow-sm border border-transparent hover:border-gray-100 transition-all">
+            <form method="POST" class="aura-form space-y-4">
+                {% csrf_token %}
+                
                 {{ form.as_p }}
+                
+                <button type="submit" class="w-full bg-blue-600 text-white mt-10 py-5 rounded-full text-lg font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 outline-none">
+                    Создать аккаунт
+                </button>
+            </form>
+
+            <div class="mt-8 text-center pt-8 border-t border-gray-100">
+                <p class="text-[13px] font-bold text-gray-400">
+                    Уже есть аккаунт? 
+                    <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-800 ml-1 transition-colors">Войти</a>
+                </p>
             </div>
-
-            <button type="submit" class="w-full aura-gradient text-white py-4 rounded-full font-bold hover:scale-[1.02] transition-all shadow-lg shadow-purple-100 mt-6">
-                Создать аккаунт
-            </button>
-        </form>
-
-        <div class="text-center mt-8">
-            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">
-                Уже есть аккаунт? <a href="{% url 'login' %}" class="text-black border-b border-black">Войти</a>
-            </p>
         </div>
+        
     </div>
+</section>
 
-    <style>
-        /* Стилизуем стандартную форму Django под наш дизайн */
-        .auth-form p { margin-bottom: 1rem; }
-        .auth-form input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: #f9fafb;
-            border-radius: 1.25rem;
-            border: none;
-            outline: none;
-        }
-        .auth-form label {
-            display: block;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-            color: #9ca3af;
-        }
-        .helptext, .errorlist { font-size: 10px; color: #9ca3af; margin-top: 4px; list-style: none; }
-    </style>
-</body>
-</html>
+<style>
+    .aura-form p {
+        margin-bottom: 1.25rem;
+    }
+    .aura-form label {
+        display: block;
+        font-size: 11px;
+        font-weight: 900;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+        margin-left: 1rem;
+    }
+    .aura-form input[type="text"],
+    .aura-form input[type="password"],
+    .aura-form input[type="email"] {
+        width: 100%;
+        background-color: #f5f5f7;
+        border: 2px solid transparent;
+        border-radius: 1.5rem;
+        padding: 1.25rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #000;
+        outline: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .aura-form input[type="text"]:focus,
+    .aura-form input[type="password"]:focus,
+    .aura-form input[type="email"]:focus {
+        background-color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+    }
+    .aura-form .helptext {
+        display: block;
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+    }
+    .aura-form ul.errorlist {
+        color: #ef4444;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+        list-style-type: none;
+        padding: 0;
+    }
+</style>
+{% endblock %}

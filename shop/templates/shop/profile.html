@@ -15,59 +15,76 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
             
-            <div class="space-y-8">
+            <div class="lg:col-span-1 space-y-8">
                 <h2 class="text-3xl font-bold tracking-tight text-black ml-4">Аккаунт</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-[2rem] p-10 shadow-sm flex flex-col justify-between h-48 border border-white">
-                        <span class="text-[11px] font-black text-gray-300 uppercase tracking-widest">E-mail</span>
-                        <span class="text-xl font-bold text-black truncate">{{ user.email }}</span>
+                <div class="bg-white rounded-[2rem] p-10 shadow-sm border border-white space-y-8">
+                    <div>
+                        <span class="text-[11px] font-black text-gray-300 uppercase tracking-widest block mb-2">Логин</span>
+                        <span class="text-xl font-bold text-black">{{ user.username }}</span>
                     </div>
-
-                    <div class="bg-white rounded-[2rem] p-10 shadow-sm flex flex-col justify-between h-48 border border-white">
-                        <span class="text-[11px] font-black text-gray-300 uppercase tracking-widest">Бонусы Aura</span>
-                        <span class="text-3xl font-bold text-blue-600">5 400 ₸</span>
-                    </div>
-
-                    <div class="md:col-span-2 bg-white rounded-[2rem] p-10 shadow-sm flex flex-col justify-between h-48 border border-white">
-                        <span class="text-[11px] font-black text-gray-300 uppercase tracking-widest">Статус клиента</span>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-black">Premium</span>
-                            <div class="h-2 w-32 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="bg-blue-600 h-full w-[75%]"></div>
-                            </div>
-                        </div>
+                    <div>
+                        <span class="text-[11px] font-black text-gray-300 uppercase tracking-widest block mb-2">E-mail</span>
+                        <span class="text-xl font-bold text-black break-words">{{ user.email|default:"Не указан" }}</span>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-8">
-                <h2 class="text-3xl font-bold tracking-tight text-black ml-4">Заказы</h2>
+            <div class="lg:col-span-2 space-y-8">
+                <h2 class="text-3xl font-bold tracking-tight text-black ml-4">История заказов</h2>
                 
-                <div class="space-y-4">
+                <div class="space-y-6">
                     {% if orders %}
                         {% for order in orders %}
-                        <div class="bg-white rounded-[2rem] p-8 shadow-sm flex justify-between items-center transition-all hover:bg-gray-50 border border-white group">
-                            <div class="space-y-1">
-                                <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest">
-                                    № {{ order.id }} — {{ order.created_at|date:"d.m.Y" }}
-                                </p>
-                                <p class="text-2xl font-bold text-black">{{ order.total_price }} ₸</p>
-                            </div>
-                            <div class="flex flex-col items-end gap-2">
+                        <div class="bg-white rounded-[2rem] p-8 shadow-sm flex flex-col transition-all hover:border-gray-200 border border-transparent group">
+                            
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                                <div class="space-y-1">
+                                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                        Заказ № {{ order.id }} — {{ order.created_at|date:"d.m.Y" }}
+                                    </p>
+                                    <p class="text-2xl font-bold text-black">{{ order.total_price }} ₸</p>
+                                </div>
                                 <span class="px-5 py-2 {% if order.is_completed %}bg-green-50 text-green-600{% else %}bg-blue-50 text-blue-600{% endif %} rounded-full font-bold text-[11px] uppercase tracking-wider">
                                     {% if order.is_completed %}Доставлено{% else %}В пути{% endif %}
                                 </span>
                             </div>
+
+                            <div class="border-t border-gray-100 pt-6 space-y-4">
+                                {% for item in order.items.all %}
+                                    <div class="flex justify-between items-center font-medium">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-14 h-14 bg-[#f5f5f7] rounded-xl flex items-center justify-center p-2">
+                                                {% if item.variant and item.variant.variant_image %}
+                                                    <img src="{{ item.variant.variant_image.url }}" class="max-h-full object-contain mix-blend-multiply">
+                                                {% elif item.product.image %}
+                                                    <img src="{{ item.product.image.url }}" class="max-h-full object-contain mix-blend-multiply">
+                                                {% endif %}
+                                            </div>
+                                            <span class="text-gray-800 text-lg">
+                                                {{ item.product.name }} 
+                                                {% if item.variant %}
+                                                    <span class="text-gray-400 text-sm ml-2">({{ item.variant.color.name }}, {{ item.variant.memory.size }})</span>
+                                                {% endif %}
+                                                <span class="text-gray-400 ml-2">x{{ item.quantity }}</span>
+                                            </span>
+                                        </div>
+                                        <span class="text-black font-bold text-lg">{{ item.price }} ₸</span>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-gray-400 text-sm italic">Состав заказа не найден.</p>
+                                {% endfor %}
+                            </div>
+
                         </div>
                         {% endfor %}
                     {% else %}
                         <div class="bg-white rounded-[2.5rem] p-24 text-center shadow-sm border border-white">
-                            <div class="text-5xl mb-6">📦</div>
-                            <p class="text-2xl text-gray-400 font-medium tracking-tight">У вас пока нет заказов.</p>
-                            <a href="{% url 'index' %}" class="inline-block mt-8 text-blue-600 font-bold hover:underline">Начать покупки</a>
+                            <div class="text-5xl mb-6 opacity-50">📦</div>
+                            <p class="text-2xl text-black font-bold tracking-tight">У вас пока нет заказов.</p>
+                            <a href="{% url 'index' %}" class="inline-block mt-8 text-blue-600 font-bold hover:underline">Перейти в каталог</a>
                         </div>
                     {% endif %}
                 </div>
