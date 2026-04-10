@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Aura Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+
+        .aura-text-gradient {
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .aura-gradient { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%); }
+    </style>
+</head>
+<body class="bg-[#fafafc] flex items-center justify-center min-h-screen p-6">
+
+    <div class="max-w-md w-full bg-white p-10 md:p-12 rounded-[3rem] shadow-sm border border-gray-50 text-center">
+        <div class="mb-10">
+            <a href="/" class="text-3xl font-extrabold tracking-tighter transition hover:opacity-70">
+                AURA <span class="aura-text-gradient">AUTH</span>
+            </a>
+            <p class="text-gray-400 mt-3 text-sm font-medium tracking-tight">Добро пожаловать в экосистему света</p>
+        </div>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="space-y-3">
+                <input type="text" name="username" placeholder="Логин" required 
+                    class="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-purple-100 transition-all placeholder:text-gray-300 font-medium">
+                
+                <input type="password" name="password" placeholder="Пароль" required 
+                    class="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-purple-100 transition-all placeholder:text-gray-300 font-medium">
+            </div>
+
+            <button type="submit" class="w-full aura-gradient text-white py-4 mt-4 rounded-full font-bold text-lg hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-purple-100">
+                Войти
+            </button>
+        </form>
+
+        <div class="mt-10 pt-8 border-t border-gray-50">
+            <p class="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em] mb-3">Нет аккаунта?</p>
+            <a href="{% url 'register' %}" class="text-sm font-bold border-b-2 border-black pb-1 hover:text-purple-500 hover:border-purple-500 transition-all">
+                Создать Aura ID
+            </a>
+        </div>
+        
+        <a href="/" class="block mt-8 text-[10px] font-bold text-gray-300 uppercase tracking-widest hover:text-black transition">
+            ← Вернуться в магазин
+        </a>
+    </div>
+
+</body>
+</html>

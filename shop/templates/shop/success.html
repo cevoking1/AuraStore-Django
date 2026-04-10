@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Заказ принят | Aura Store</title>
+    <style>
+        .aura-text-gradient { 
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%); 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+    </style>
+</head>
+<body class="bg-white flex items-center justify-center min-h-screen">
+
+    <div class="text-center space-y-8 p-10 max-w-lg">
+        <div class="flex justify-center">
+            <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center text-green-500 animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="text-5xl font-extrabold tracking-tighter">Спасибо за <span class="aura-text-gradient">выбор.</span></h1>
+        
+        <div class="space-y-2 text-gray-500 font-medium">
+            <p>Ваш заказ №{{ order.id }} успешно оформлен.</p>
+            <p>Наш менеджер Aura свяжется с вами в ближайшее время по номеру <span class="text-black font-bold">{{ order.phone }}</span>.</p>
+        </div>
+
+        <div class="pt-10">
+            <a href="/" class="bg-black text-white px-12 py-4 rounded-full font-bold hover:bg-gray-800 transition shadow-xl inline-block">
+                Вернуться на главную
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

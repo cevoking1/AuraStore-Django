@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Store | Эстетика технологий</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+
+        .aura-gradient { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%); }
+        .aura-text-gradient {
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .apple-shadow:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <header class="border-b border-gray-50 py-5 px-12 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-xl z-50">
+        <div class="w-1/3 flex justify-start">
+            <a href="/" class="text-2xl font-extrabold tracking-tighter transition hover:opacity-70">
+                AURA <span class="aura-text-gradient">STORE</span>
+            </a>
+        </div>
+        
+        <nav class="w-1/3 hidden md:flex justify-center space-x-12 text-[13px] font-semibold uppercase tracking-widest text-gray-400">
+            <a href="#" class="hover:text-black transition">Каталог</a>
+            <a href="#" class="hover:text-black transition">Новинки</a>
+            <a href="#" class="hover:text-black transition">Инфо</a>
+        </nav>
+
+        <div class="w-1/3 flex justify-end items-center space-x-4">
+            <a href="{% url 'cart_detail' %}" class="text-[11px] font-bold bg-[#f5f5f7] px-6 py-2.5 rounded-full hover:bg-gray-200 transition-all">
+                КОРЗИНА <span class="aura-text-gradient ml-1">
+                    ({% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %})
+                </span>
+            </a>
+
+            {% if user.is_authenticated %}
+                <div class="flex items-center space-x-3 border-l pl-4 border-gray-100">
+                    <span class="text-[11px] font-black text-gray-900 uppercase tracking-widest">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="text-[11px] font-bold text-red-400 hover:text-red-600 transition uppercase tracking-widest">Выйти</a>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-[11px] font-bold border border-gray-200 px-6 py-2.5 rounded-full hover:bg-gray-50 transition uppercase tracking-widest">
+                    Войти
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <section class="bg-[#fafafc] py-20 border-b border-gray-50">
+        <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 text-left space-y-6">
+                <span class="text-[11px] font-black aura-text-gradient uppercase tracking-[0.3em]">Special Edition</span>
+                <h1 class="text-7xl font-extrabold tracking-tighter leading-none">
+                    Aura Flow.<br><span class="text-gray-300 font-bold">Pure light.</span>
+                </h1>
+                <p class="text-lg text-gray-400 max-w-md font-medium leading-relaxed">
+                    Ничего лишнего. Только идеальный баланс формы и содержания.
+                </p>
+                <div class="pt-4">
+                    <a href="{% url 'cart_detail' %}" class="aura-gradient text-white px-10 py-4 rounded-full font-bold text-sm shadow-xl shadow-purple-100 transition-all inline-block">
+                        Оформить заказ
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center relative">
+                <div class="aura-gradient w-80 h-80 rounded-full blur-[100px] opacity-10 absolute"></div>
+                <img src="https://www.apple.com/v/airpods-max/f/images/overview/hero_pink__f9p4onb536ee_large.png" class="relative z-10 w-full max-w-md drop-shadow-2xl mix-blend-multiply">
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-12 py-24">
+        <div class="flex items-center justify-between mb-16 text-center md:text-left">
+            <h2 class="text-3xl font-extrabold tracking-tight">Какую Aura выберешь ты?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="group relative bg-white rounded-[2.5rem] p-8 transition-all duration-500 hover:bg-[#f5f5f7] apple-shadow flex flex-col items-center text-center">
+                <a href="{% url 'product_detail' product.pk %}" class="w-full mb-10">
+                    <div class="aspect-square w-full flex items-center justify-center">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-h-full object-contain mix-blend-multiply">
+                        {% endif %}
+                    </div>
+                </a>
+
+                <div class="space-y-1 mb-8">
+                    <span class="text-[11px] font-bold text-orange-600 uppercase tracking-tight">Новинка</span>
+                    <a href="{% url 'product_detail' product.pk %}">
+                        <h3 class="text-[20px] font-semibold text-gray-900 tracking-tight leading-tight hover:opacity-70 transition">
+                            {{ product.name }}
+                        </h3>
+                    </a>
+                    <p class="text-[16px] text-gray-500 pt-1 font-medium">от {{ product.price }} ₸</p>
+                </div>
+                
+                <div class="mt-auto">
+                    <a href="{% url 'add_to_cart' product.pk %}" class="aura-gradient text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg shadow-purple-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v12m6-6H6" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full py-20 text-center text-gray-300">Витрина пуста...</div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="py-20 border-t border-gray-50 bg-[#fafafc]">
+        <div class="max-w-7xl mx-auto px-12 flex flex-col items-center space-y-6">
+            <div class="text-2xl font-extrabold tracking-tighter opacity-20">AURA STORE</div>
+            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">© 2026 Almaty, Kazakhstan</div>
+        </div>
+    </footer>
+
+</body>
+</html>

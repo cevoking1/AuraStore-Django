@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Регистрация | Aura Store</title>
+    <style>
+        .aura-text-gradient {
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .aura-gradient { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%); }
+    </style>
+</head>
+<body class="bg-[#fafafc] flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-sm border border-gray-50">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black tracking-tighter italic">AURA <span class="aura-text-gradient">JOIN</span></h1>
+            <p class="text-gray-400 mt-2 text-sm font-medium">Создайте аккаунт для быстрых покупок</p>
+        </div>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="space-y-4 auth-form">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="w-full aura-gradient text-white py-4 rounded-full font-bold hover:scale-[1.02] transition-all shadow-lg shadow-purple-100 mt-6">
+                Создать аккаунт
+            </button>
+        </form>
+
+        <div class="text-center mt-8">
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">
+                Уже есть аккаунт? <a href="{% url 'login' %}" class="text-black border-b border-black">Войти</a>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        /* Стилизуем стандартную форму Django под наш дизайн */
+        .auth-form p { margin-bottom: 1rem; }
+        .auth-form input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-radius: 1.25rem;
+            border: none;
+            outline: none;
+        }
+        .auth-form label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            color: #9ca3af;
+        }
+        .helptext, .errorlist { font-size: 10px; color: #9ca3af; margin-top: 4px; list-style: none; }
+    </style>
+</body>
+</html>
