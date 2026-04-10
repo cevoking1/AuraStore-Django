@@ -1,13 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required # Добавь этот импорт
-from .models import Product, Order
+from django.contrib.auth.decorators import login_required
+from .models import Product, Order, Category # Добавлен импорт Category
 
 # --- ГЛАВНАЯ СТРАНИЦА ---
 def index(request):
-    products = Product.objects.all()
-    return render(request, 'shop/index.html', {'products': products})
+    # Получаем все активные товары и все категории для навигации
+    products = Product.objects.filter(is_active=True)
+    categories = Category.objects.all()
+    return render(request, 'shop/index.html', {
+        'products': products,
+        'categories': categories
+    })
+
+# --- СТРАНИЦА КАТЕГОРИИ (НОВОЕ) ---
+def category_detail(request, slug):
+    # Находим категорию по её slug (например, 'smartphones')
+    category = get_object_or_404(Category, slug=slug)
+    # Фильтруем товары только этой категории
+    products = category.products.filter(is_active=True)
+    return render(request, 'shop/category_detail.html', {
+        'category': category,
+        'products': products
+    })
 
 # --- ДЕТАЛИ ТОВАРА ---
 def product_detail(request, pk):
@@ -38,8 +54,8 @@ def cart_clear(request):
         del request.session['cart']
     return redirect('index')
 
-# --- ОФОРМЛЕНИЕ ЗАКАЗА (ОБНОВЛЕНО) ---
-@login_required # Только авторизованные могут оформлять заказ
+# --- ОФОРМЛЕНИЕ ЗАКАЗА ---
+@login_required
 def checkout(request):
     cart = request.session.get('cart', {})
     if not cart:
@@ -51,7 +67,6 @@ def checkout(request):
             product = Product.objects.get(pk=pk)
             total += product.price * qty
         
-        # Теперь привязываем заказ к user=request.user
         order = Order.objects.create(
             user=request.user, 
             first_name=request.POST.get('first_name'),
@@ -64,10 +79,9 @@ def checkout(request):
         return render(request, 'shop/success.html', {'order': order})
     return render(request, 'shop/checkout.html')
 
-# --- ЛИЧНЫЙ КАБИНЕТ (НОВОЕ) ---
+# --- ЛИЧНЫЙ КАБИНЕТ ---
 @login_required
 def profile(request):
-    # Фильтруем заказы: только те, что принадлежат текущему пользователю
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'shop/profile.html', {'orders': orders})
 
