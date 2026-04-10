@@ -15,6 +15,7 @@
         .aura-text-gradient {
             background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .aura-card-shadow {
@@ -36,10 +37,16 @@
                 ← Назад в каталог
             </a>
         </div>
-        <div class="w-1/3 flex justify-end">
-            <button class="text-xs font-bold bg-gray-50 border border-gray-100 px-6 py-2.5 rounded-full aura-card-shadow">
-                КОРЗИНА <span class="aura-text-gradient ml-1">(0)</span>
-            </button>
+        <div class="w-1/3 flex justify-end items-center space-x-4">
+            <a href="{% url 'cart_detail' %}" class="text-xs font-bold bg-[#f5f5f7] px-6 py-2.5 rounded-full aura-card-shadow hover:bg-gray-200 transition-all">
+                КОРЗИНА <span class="aura-text-gradient ml-1">
+                    ({% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %})
+                </span>
+            </a>
+            
+            {% if user.is_authenticated %}
+                <span class="text-[11px] font-black text-gray-900 uppercase tracking-widest">{{ user.username }}</span>
+            {% endif %}
         </div>
     </header>
 
@@ -69,12 +76,13 @@
                     </p>
                     
                     <div class="flex flex-col gap-4 pt-4">
-                        <button class="aura-gradient text-white py-5 rounded-3xl font-bold text-lg shadow-2xl shadow-purple-100 hover:scale-[1.02] active:scale-95 transition-all">
+                        <a href="{% url 'add_to_cart' product.pk %}" class="aura-gradient text-white py-5 rounded-3xl font-bold text-lg shadow-2xl shadow-purple-100 hover:scale-[1.02] active:scale-95 transition-all text-center block">
                             Добавить в корзину
-                        </button>
-                        <button class="bg-gray-50 text-black py-5 rounded-3xl font-bold text-lg hover:bg-gray-100 transition-all border border-gray-100">
+                        </a>
+                        
+                        <a href="{% url 'checkout' %}" class="bg-gray-50 text-black py-5 rounded-3xl font-bold text-lg hover:bg-gray-100 transition-all border border-gray-100 text-center block">
                             Быстрая покупка
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -111,7 +119,7 @@
                 <div class="space-y-4">
                     <div class="text-4xl">🛡️</div>
                     <h3 class="text-xl font-bold">Безопасная оплата</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">Ваши данные защищены сквозным шифрованием по стандарту Aura.</p>
+                    <p class="text-sm text-gray-400 leading-relaxed">Ваши данные защищены по стандарту Aura.</p>
                 </div>
                 <div class="space-y-4">
                     <div class="text-4xl">💎</div>

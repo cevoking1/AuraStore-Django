@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required # Добавь этот импорт
 from .models import Product, Order
 
 # --- ГЛАВНАЯ СТРАНИЦА ---
@@ -37,7 +38,8 @@ def cart_clear(request):
         del request.session['cart']
     return redirect('index')
 
-# --- ОФОРМЛЕНИЕ ЗАКАЗА ---
+# --- ОФОРМЛЕНИЕ ЗАКАЗА (ОБНОВЛЕНО) ---
+@login_required # Только авторизованные могут оформлять заказ
 def checkout(request):
     cart = request.session.get('cart', {})
     if not cart:
@@ -49,7 +51,9 @@ def checkout(request):
             product = Product.objects.get(pk=pk)
             total += product.price * qty
         
+        # Теперь привязываем заказ к user=request.user
         order = Order.objects.create(
+            user=request.user, 
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
             phone=request.POST.get('phone'),
@@ -60,9 +64,14 @@ def checkout(request):
         return render(request, 'shop/success.html', {'order': order})
     return render(request, 'shop/checkout.html')
 
-# --- АВТОРИЗАЦИЯ (НОВОЕ) ---
+# --- ЛИЧНЫЙ КАБИНЕТ (НОВОЕ) ---
+@login_required
+def profile(request):
+    # Фильтруем заказы: только те, что принадлежат текущему пользователю
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'shop/profile.html', {'orders': orders})
 
-# Вход
+# --- АВТОРИЗАЦИЯ ---
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -74,7 +83,6 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'shop/login.html', {'form': form})
 
-# Регистрация
 def user_register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -86,7 +94,6 @@ def user_register(request):
         form = UserCreationForm()
     return render(request, 'shop/register.html', {'form': form})
 
-# Выход
 def user_logout(request):
     logout(request)
     return redirect('index')
