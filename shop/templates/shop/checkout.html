@@ -1,18 +1,54 @@
 {% extends 'base.html' %}
-
-{% block title %}Оформление | Aura Store{% endblock %}
+{% load static %}
 
 {% block content %}
-<main class="flex items-center justify-center py-20 bg-[#fafafc]">
-    <div class="max-w-xl w-full bg-white p-12 rounded-[3rem] shadow-sm border border-gray-50">
-        <h1 class="text-4xl font-extrabold text-center mb-10">Данные <span class="aura-text-gradient">доставки.</span></h1>
-        <form method="POST" class="space-y-4">
+<section class="bg-[#f5f5f7] min-h-screen pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-12">
+        <h1 class="text-5xl font-bold mb-12 tracking-tight text-black">Оформление.</h1>
+        
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-12">
             {% csrf_token %}
-            ...
-            <button type="submit" class="w-full aura-gradient text-white py-5 rounded-full font-bold">
-                Подтвердить заказ
-            </button>
+            <div class="md:col-span-2 space-y-6">
+                <div class="bg-white rounded-[1.5rem] p-10 shadow-sm space-y-6">
+                    <h3 class="text-2xl font-bold mb-4 text-black">Контактные данные</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" name="first_name" placeholder="Имя" required 
+                               class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+                        
+                        <input type="text" name="last_name" placeholder="Фамилия" required 
+                               class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+                    </div>
+
+                    <input type="email" name="email" placeholder="E-mail" required 
+                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+                    
+                    <input type="text" name="phone" placeholder="Телефон" required 
+                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+
+                    <input type="text" name="address" placeholder="Адрес доставки в Алматы" required 
+                           class="w-full p-4 bg-[#f5f5f7] border-none rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-black">
+                </div>
+            </div>
+
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-[1.5rem] p-10 shadow-sm sticky top-32">
+                    <h3 class="text-2xl font-bold mb-6 text-black">Ваш заказ</h3>
+                    <div class="space-y-4 mb-8 text-gray-500 font-medium">
+                        <div class="flex justify-between"><span>Товары</span><span>{{ total_price }} ₸</span></div>
+                        <div class="flex justify-between text-green-600"><span>Доставка</span><span>Бесплатно</span></div>
+                    </div>
+                    <div class="border-t border-gray-100 pt-6 mb-8">
+                        <div class="flex justify-between text-2xl font-bold text-black">
+                            <span>Итого</span><span>{{ total_price }} ₸</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-full font-bold hover:bg-blue-700 transition-all">
+                        Оплатить
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
-</main>
+</section>
 {% endblock %}

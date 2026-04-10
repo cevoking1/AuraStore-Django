@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User # Добавляем стандартную модель пользователя Django
+from django.contrib.auth.models import User
 
 # --- ТАБЛИЦА ТОВАРОВ ---
 class Product(models.Model):
@@ -8,10 +8,13 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Цена (₸)")
     image = models.ImageField(upload_to='products/', verbose_name="Фото")
     is_active = models.BooleanField(default=True, verbose_name="В продаже")
+    # Добавляем created_at, чтобы админка не ругалась
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления", null=True)
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
@@ -19,8 +22,6 @@ class Product(models.Model):
 
 # --- ТАБЛИЦА ЗАКАЗОВ ---
 class Order(models.Model):
-    # Новое поле: привязываем заказ к конкретному пользователю
-    # Если пользователя удалят, его заказы тоже удалятся (on_delete=models.CASCADE)
     user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
